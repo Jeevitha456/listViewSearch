@@ -5,20 +5,21 @@ import android.app.ProgressDialog
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.*
 import com.example.listviewapp.adapter.CompanyRecyclerAdapter
-import com.example.listviewapp.model.ApiClient
-import com.example.listviewapp.model.CryptoModel
-import com.example.listviewapp.model.DataModel
-import com.example.listviewapp.model.DataSource
+import com.example.listviewapp.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
@@ -27,37 +28,50 @@ class MainActivity : AppCompatActivity() {
     lateinit var companyadapter:CompanyRecyclerAdapter
     lateinit var progerssProgressDialog: ProgressDialog
     var dataList = ArrayList<CryptoModel>()
-    var displaylist= ArrayList<CryptoModel>()
+    var searchlist= ArrayList<CryptoModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         recyclerView = findViewById(R.id.recycler_view) as RecyclerView
+
+        companyadapter=CompanyRecyclerAdapter(searchlist,this)
         recyclerView.adapter= CompanyRecyclerAdapter(dataList,this)
-        companyadapter=CompanyRecyclerAdapter(dataList,this)
+
         recyclerView.layoutManager=LinearLayoutManager(this@MainActivity)
-        //recyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 
-        progerssProgressDialog=ProgressDialog(this)
-        progerssProgressDialog.setTitle("Loading")
-        progerssProgressDialog.setCancelable(false)
-        progerssProgressDialog.show()
-        getData()
-       //companyadapter=CompanyRecyclerAdapter()
-        //recyclerView.layoutManager=LinearLayoutManager(this@MainActivity)
+        //progerssProgressDialog=ProgressDialog(this)
+        //progerssProgressDialog.setTitle("Loading")
+       // progerssProgressDialog.setCancelable(false)
+       // progerssProgressDialog.show()
+        setPeriodicWorkRequest()
 
-        //recyclerView.adapter=companyadapter
-        //addDataSet()
+        CompanyWorker.App.getList().observe(this, androidx.lifecycle.Observer {
+            if(it!=null)
+            {
+                dataList.clear()
+
+                dataList.addAll(it)
+                searchlist.addAll(dataList)
+                recyclerView.adapter?.notifyDataSetChanged()
+            }
+        })
+
+        //setOneTimeWorkRequest()
+
+       //getData()
+
     }
-    private fun getData() {
+
+     fun getData() {
         val call: Call<List<CryptoModel>> = ApiClient.getClient.getPhotos()
         call.enqueue(object : Callback<List<CryptoModel>> {
 
             override fun onResponse(call: Call<List<CryptoModel>>?, response: Response<List<CryptoModel>>?) {
                 progerssProgressDialog.dismiss()
                 dataList.addAll(response!!.body()!!)
-                displaylist.addAll(dataList)
+                searchlist.addAll(dataList)
 
                 recyclerView.adapter?.notifyDataSetChanged()
 
@@ -72,8 +86,20 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
+    // implementing WorkManager
+
+    private fun setPeriodicWorkRequest(){
+        val periodicWorkRequest=PeriodicWorkRequest.Builder(CompanyWorker::class.java,15,
+            TimeUnit.MINUTES)
+            .build()
+        WorkManager.getInstance(applicationContext).enqueue(periodicWorkRequest)
+
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-       menuInflater.inflate(R.menu.main,menu)
+        menuInflater.inflate(R.menu.main,menu)
         val menuItem=menu!!.findItem(R.id.menu_search)
         if(menuItem!=null)
         {
@@ -85,13 +111,13 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     if (newText!!.isNotEmpty()) {
-                        displaylist.clear()
+                        searchlist.clear()
 
                         companyadapter.getFilter()?.filter(newText)
                         recyclerView.adapter?.notifyDataSetChanged()
                     } else {
-                        displaylist.clear()
-                        displaylist.addAll(dataList)
+                        searchlist.clear()
+                        searchlist.addAll(dataList)
                         recyclerView.adapter?.notifyDataSetChanged()
                     }
 
@@ -106,4 +132,5 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return super.onOptionsItemSelected(item)
     }
+
 }
