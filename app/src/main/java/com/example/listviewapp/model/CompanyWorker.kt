@@ -15,52 +15,24 @@ import java.lang.Exception
 
 class CompanyWorker(context: Context,workerParameters: WorkerParameters):Worker(context,workerParameters) {
 
-  //  lateinit var progerssProgressDialog: ProgressDialog
     override fun doWork(): Result {
         try {
             val call: Call<List<CryptoModel>> = ApiClient.getClient.getPhotos()
             call.enqueue(object : Callback<List<CryptoModel>> {
 
-                override fun onResponse(call: Call<List<CryptoModel>>?, response: Response<List<CryptoModel>>?) {
-
-
-                     //dataList = ArrayList<CryptoModel>()
-                   // dataList.addAll(response!!.body()!!)
-                    App.list((response!!.body() as ArrayList<CryptoModel>?)!!)
+                override fun onResponse(call: Call<List<CryptoModel>>?, response: Response<List<CryptoModel>>?)
+                {
+                    SingletonObject.list((response!!.body() as ArrayList<CryptoModel>?)!!)
                 }
 
                 override fun onFailure(call: Call<List<CryptoModel>>?, t: Throwable?) {
-
                 }
-
             })
+
             return Result.success()
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
             return Result.failure()
         }
-
-    }
-
-    object App {
-
-           var listlivedata= MutableLiveData<ArrayList<CryptoModel>>()
-            fun list(data: ArrayList<CryptoModel>) {
-                listlivedata.value = data
-
-            }
-            fun getList():MutableLiveData<ArrayList<CryptoModel>>
-            {
-              // datalist!!.addAll(data)
-
-                return listlivedata
-            }
-
-
-
-
-
-
-
-
     }
 }
