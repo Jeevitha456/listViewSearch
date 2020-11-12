@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="_12sp">12sp</dimen>
+    <dimen name="_16sp">16sp</dimen>
     <dimen name="standard">10dp</dimen>
-    <dimen name="textsize">15dp</dimen>
+    <dimen name="textsize">15sp</dimen>
     <dimen name="cardpadding">50dp</dimen>
     <dimen name="marginpadding">68dp</dimen>
 </resources>

@@ -1,13 +1,9 @@
 package com.example.listviewapp.model
 
-import android.app.ProgressDialog
+
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.example.listviewapp.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

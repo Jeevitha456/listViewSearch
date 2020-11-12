@@ -3,7 +3,7 @@ package com.example.listviewapp.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class CryptoModel (
+data class CryptoModel(
 
 
         @Expose
@@ -75,7 +75,6 @@ data class CryptoModel (
         @Expose
         @SerializedName("volume_24_usd")
         val volume_24_usd: Double,
-
 
 
         @Expose

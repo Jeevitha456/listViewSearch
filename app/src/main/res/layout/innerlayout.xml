@@ -7,7 +7,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="@dimen/standard"
     app:cardCornerRadius="2dp"
-    android:id="@+id/cardview"
     android:background="@color/white"
     app:cardPreventCornerOverlap="false"
     >
@@ -31,7 +30,7 @@
             android:shape="ring"
             android:padding="@dimen/cardpadding"
             android:thicknessRatio="1.9"
-            android:layout_marginLeft="@dimen/standard"
+            android:layout_marginStart="@dimen/standard"
             android:layout_marginTop="@dimen/standard"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints">
@@ -44,7 +43,6 @@
                 android:layout_centerHorizontal="true"
                 android:background="@color/purple"
                 android:gravity="center"
-                android:tooltipText="J"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="@dimen/textsize">
@@ -58,10 +56,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginpadding"
-            android:layout_marginLeft="@dimen/marginpadding"
-            android:tooltipText="Title of the blog"
             android:textColor="@color/black"
-            android:textSize="@dimen/textsize"
+            android:textSize="@dimen/_16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/company_currency"
             app:layout_constraintStart_toStartOf="@id/profile"
@@ -73,9 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginpadding"
-            android:layout_marginLeft="@dimen/marginpadding"
-            android:textSize="12sp"
-            android:tooltipText="Jeevitha"
+            android:textSize="@dimen/_12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="@id/profile"
             app:layout_constraintStart_toStartOf="@id/profile"
@@ -87,6 +81,6 @@
         android:layout_height="1dp"
         android:background="@color/grey"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="@dimen/marginpadding"/>
+        android:layout_marginStart="@dimen/marginpadding"/>
 
 </androidx.cardview.widget.CardView>

@@ -4,13 +4,13 @@ import androidx.lifecycle.MutableLiveData
 
 object SingletonObject {
 
-    var listlivedata = MutableLiveData<ArrayList<CryptoModel>>()
+    private var listLiveData = MutableLiveData<ArrayList<CryptoModel>>()
 
     fun list(data: ArrayList<CryptoModel>) {
-        listlivedata.value = data
+        listLiveData.value = data
     }
 
     fun getList(): MutableLiveData<ArrayList<CryptoModel>> {
-        return listlivedata
+        return listLiveData
     }
 }
