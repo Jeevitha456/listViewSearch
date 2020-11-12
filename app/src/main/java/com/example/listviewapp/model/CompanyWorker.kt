@@ -17,13 +17,14 @@ class CompanyWorker(context: Context,workerParameters: WorkerParameters):Worker(
 
   //  lateinit var progerssProgressDialog: ProgressDialog
     override fun doWork(): Result {
+        Log.d("TAG","====> doWork")
         try {
             val call: Call<List<CryptoModel>> = ApiClient.getClient.getPhotos()
             call.enqueue(object : Callback<List<CryptoModel>> {
 
                 override fun onResponse(call: Call<List<CryptoModel>>?, response: Response<List<CryptoModel>>?) {
 
-
+                    Log.d("TAG","====> onResponse")
                      //dataList = ArrayList<CryptoModel>()
                    // dataList.addAll(response!!.body()!!)
                     App.list((response!!.body() as ArrayList<CryptoModel>?)!!)
@@ -46,7 +47,7 @@ class CompanyWorker(context: Context,workerParameters: WorkerParameters):Worker(
            var listlivedata= MutableLiveData<ArrayList<CryptoModel>>()
             fun list(data: ArrayList<CryptoModel>) {
                 listlivedata.value = data
-
+                Log.d("TAG","====> on App${data}")
             }
             fun getList():MutableLiveData<ArrayList<CryptoModel>>
             {

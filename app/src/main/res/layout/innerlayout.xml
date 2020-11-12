@@ -39,13 +39,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
-
                 android:layout_centerHorizontal="true"
                 android:background="#800080"
                 android:gravity="center"
                 android:text="J"
                 android:textColor="@color/white"
-                android:textSize="30dp"></TextView>
+                android:textSize="30dp"/>
         </androidx.cardview.widget.CardView>
 
 
@@ -64,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/company_name"
-                android:text="The Title of a Blog"
+                android:text="The Titlksjflsdjflksdjjdfgkjdfkgjdfkgflsdfjlksdfjsdkle of a Blog"
                 android:textColor="#000"
                 android:textSize="10sp"
                 />
@@ -73,9 +72,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/company_currency"
-                android:text="Mitch Tabian"
                 android:textSize="10sp"
                 android:layout_marginTop="10dp"
+                tools:text="jjjj"
                 />
 
             <View

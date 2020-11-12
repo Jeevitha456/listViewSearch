@@ -49,10 +49,7 @@ class CompanyRecyclerAdapter(private var dataList: List<CryptoModel>, private va
              }
     }
 
-    fun submitList(companylist:List<Company>){
-         //items=companylist
 
-    }
 
     class CompanyViewHolder constructor(itemView:View):RecyclerView.ViewHolder(itemView)
     {
