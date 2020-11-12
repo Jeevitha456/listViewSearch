@@ -7,5 +7,5 @@ import retrofit2.http.POST
 interface ApiInterface
 {
     @GET("apps/coincodex/cache/all_coins.json")
-    fun getPhotos(): Call<List<CryptoModel>>
+    fun getCryptoList(): Call<List<CryptoModel>>
 }

@@ -17,7 +17,7 @@ class CompanyWorker(context: Context,workerParameters: WorkerParameters):Worker(
 
     override fun doWork(): Result {
         try {
-            val call: Call<List<CryptoModel>> = ApiClient.getClient.getPhotos()
+            val call: Call<List<CryptoModel>> = ApiClient.getClient.getCryptoList()
             call.enqueue(object : Callback<List<CryptoModel>> {
 
                 override fun onResponse(call: Call<List<CryptoModel>>?, response: Response<List<CryptoModel>>?)

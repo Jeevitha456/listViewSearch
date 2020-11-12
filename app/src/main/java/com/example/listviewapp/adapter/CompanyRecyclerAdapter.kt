@@ -15,7 +15,7 @@ import kotlin.collections.ArrayList
 
 
 class CompanyRecyclerAdapter(private var cryptoList: ArrayList<CryptoModel>, private val context: Context):RecyclerView.Adapter<RecyclerView.ViewHolder>(),Filterable {
-    var searchlist=ArrayList<CryptoModel>()
+    private var searchlist=ArrayList<CryptoModel>()
     init {
         searchlist=cryptoList
     }
@@ -68,31 +68,45 @@ class CompanyRecyclerAdapter(private var cryptoList: ArrayList<CryptoModel>, pri
         return object:Filter()
         {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-                var filteredList=ArrayList<CryptoModel>()
-             val  charSearch=constraint.toString()
-               if(charSearch.isEmpty())
-               {
-                   searchlist=cryptoList
-               }
-                else
-               {
-
-                   cryptoList.forEach {
-                       if(it.name.toLowerCase(Locale.ROOT).contains(charSearch.toLowerCase(Locale.ROOT)))
-                       {
-                           filteredList.add(it)
-                       }
-                   }
-                   searchlist=filteredList
-               }
                 val filterResults=FilterResults()
-                filterResults.values=searchlist
-                return filterResults
+                try
+                {
+                    var filteredList=ArrayList<CryptoModel>()
+                    val  charSearch=constraint.toString()
+                    if(charSearch.isEmpty())
+                    {
+                        searchlist=cryptoList
+                    }
+                    else
+                    {
+
+                        cryptoList.forEach {
+                            if(it.name.toLowerCase(Locale.ROOT).contains(charSearch.toLowerCase(Locale.ROOT)))
+                            {
+                                filteredList.add(it)
+                            }
+                        }
+                        searchlist=filteredList
+                    }
+
+                    filterResults.values=searchlist
+                }
+                catch (ex:Exception)
+                {
+
+                }
+           return filterResults
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                searchlist.addAll(results?.values as ArrayList<CryptoModel>)
-                notifyDataSetChanged()
+                try {
+                    searchlist.addAll(results?.values as ArrayList<CryptoModel>)
+                    notifyDataSetChanged()
+                }
+                catch (ex:Exception)
+                {
+
+                }
             }
         }
     }

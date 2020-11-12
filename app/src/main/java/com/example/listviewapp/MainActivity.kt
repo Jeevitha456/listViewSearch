@@ -24,45 +24,54 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var recyclerView: RecyclerView
-    lateinit var companyadapter:CompanyRecyclerAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var companyadapter:CompanyRecyclerAdapter
     var cryptoList = ArrayList<CryptoModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        try {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
 
-        recyclerView = findViewById(R.id.recycler_view) as RecyclerView
-        companyadapter=CompanyRecyclerAdapter(cryptoList,this)
-        recyclerView.adapter= companyadapter
-        recyclerView.layoutManager=LinearLayoutManager(this@MainActivity)
+            recyclerView = findViewById(R.id.recycler_view) as RecyclerView
+            companyadapter=CompanyRecyclerAdapter(cryptoList,this)
+            recyclerView.adapter= companyadapter
+            recyclerView.layoutManager=LinearLayoutManager(this@MainActivity)
 
-        setPeriodicWorkRequest()
+            setPeriodicWorkRequest()
 
-        SingletonObject.getList().observe(this, androidx.lifecycle.Observer {
-            if(it!=null)
-            {
-                cryptoList.clear()
-                cryptoList.addAll(it)
-                recyclerView.adapter?.notifyDataSetChanged()
-            }
-        })
+            SingletonObject.getList().observe(this, androidx.lifecycle.Observer {
+                if(it!=null)
+                {
+                    cryptoList.clear()
+                    cryptoList.addAll(it)
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+            })
+        }
+        catch (e:Exception)
+        {
+
+        }
     }
-
 
 
     // implementing WorkManager
-
     private fun setPeriodicWorkRequest(){
-        val periodicWorkRequest=PeriodicWorkRequest.Builder(CompanyWorker::class.java,15,
-            TimeUnit.MINUTES)
-            .build()
-        WorkManager.getInstance(applicationContext).enqueue(periodicWorkRequest)
+        try
+        {
+            val periodicWorkRequest=PeriodicWorkRequest.Builder(CompanyWorker::class.java,15,
+                    TimeUnit.MINUTES)
+                    .build()
+            WorkManager.getInstance(applicationContext).enqueue(periodicWorkRequest)
+        }
+        catch (e:Exception)
+        {
 
+        }
     }
 
     // SerachView
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main,menu)
         val menuItem=menu!!.findItem(R.id.menu_search)
